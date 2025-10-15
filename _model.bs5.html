@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <style>
+        html,
+        body,
+        input,
+        textarea,
+        select {
+            font-family: "Roboto", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: steelblue;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: orangered;
+        }
+
+        footer ul {
+            list-style: none;
+            padding-left: 1rem;
+            line-height: 1.8;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: var(--bs-light);
+        }
+
+        footer a:hover {
+            color: var(--bs-warning);
+        }
+
+        .border-md-top-0 {
+            border-top: 1px solid grey;
+        }
+
+        @media screen and (min-width: 768px) {
+            .border-md-top-0 {
+                border: none !important;
+            }
+        }
+
+        .avatar-sm {
+            width: 2rem;
+            height: 2rem;
+        }
+    </style>
+    <title>SpringPad</title>
+</head>
+
+<body class="bg-secondary d-flex flex-column min-vh-100">
+
+    <a id="top"></a>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="javascript:void(0)">
+                <h1 class="h5 m-0">Spring<i class="bi bi-file-earmark-text text-warning"></i>Pad</h1>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+
+                <ul class="navbar-nav me-auto border-md-top-0 mt-3 mt-md-0 ps-4 ps-md-0">
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link active" href="javascript:void(0)">Início</a></li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link" href="javascript:void(0)">Novo</a></li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link" href="javascript:void(0)">Contatos</a></li>
+                    <li class="nav-item mt-2 mt-md-0"><a class="nav-link" href="javascript:void(0)">Sobre</a></li>
+                </ul>
+
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 mt-3 mt-md-0">
+
+                    <form class="order-2 order-md-1 w-100">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="Procurar...">
+                            <button class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+
+                    <ul class="navbar-nav order-1 order-md-2">
+                        <li class="nav-item m-0 p-0 ps-4 ps-md-0">
+                            <a class="nav-link d-flex align-items-center m-0 p-0" href="javascript:void(0)" id="userInOut" title="Login pelo Google">
+                                <img src="user.png" alt="Logue-se com o Google" class="rounded-circle avatar-sm">
+                                <span class="d-md-none ms-3">Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5 p-4 pt-4 bg-white flex-grow-1">
+
+        <h2>Título</h2>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <ul>
+            <li><a href="javascript:void(0)">Link 1</a></li>
+            <li><a href="javascript:void(0)">Link 2</a></li>
+            <li><a href="javascript:void(0)">Link 3</a></li>
+            <li><a href="javascript:void(0)">Link 4</a></li>
+        </ul>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ex mollitia ut itaque iusto minima perferendis quis expedita enim beatae maiores, quasi suscipit, necessitatibus sunt doloribus doloremque libero? Mollitia, obcaecati.</p>
+
+    </main>
+
+    <footer class="bg-dark text-light">
+
+        <div class="container d-flex justify-content-between justify-content-sm-around pt-3 border-bottom border-secondary">
+
+            <nav>
+                <h5>Redes Sociais:</h5>
+                <ul>
+                    <li><a href="https://facebook.com" target="_blank"><i class="bi bi-facebook me-2"></i> Facebook</a> </li>
+                    <li><a href="https://instagram.com" target="_blank"><i class="bi bi-instagram me-2"></i> Instagram</a></li>
+                    <li><a href="https://youtube.com" target="_blank"><i class="bi bi-youtube me-2"></i> Youtube</a></li>
+                    <li><a href="https://github.com/Luferat" target="_blank"><i class="bi bi-github me-2"></i> GitHub</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav>
+                <h5>Acesso Rápido:</h5>
+                <ul>
+                    <li><a href="javascript:void(0)"><i class="bi bi-buildings-fill me-2"></i> Procurar</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-person-lock me-2"></i> Privacidade</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-chat-dots-fill me-2"></i> Contatos</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-person-vcard-fill me-2"></i> Sobre</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="container d-flex justify-content-between align-items-center py-2">
+            <a href="javascript:void(0)" title="Página inicial" class="fs-4"><i class="bi bi-house"></i></a>
+            <div class="text-center">&copy; 2025 Joca da Silva</div>
+            <a href="#top" title="Topo desta página" class="fs-4"><i class="bi bi-arrow-up-circle"></i></a>
+        </div>
+
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
