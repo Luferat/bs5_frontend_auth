@@ -29,12 +29,6 @@
             color: orangered;
         }
 
-        footer ul {
-            list-style: none;
-            padding-left: 1rem;
-            line-height: 1.8;
-        }
-
         footer a {
             text-decoration: none;
             color: var(--bs-light);
@@ -57,6 +51,16 @@
         .avatar-sm {
             width: 2rem;
             height: 2rem;
+        }
+
+        .footer-nav a {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-nav i {
+            font-size: 1.5rem;
+            margin-right: .5rem;
         }
     </style>
     <title>Spring&#128196;Pad</title>
@@ -129,12 +133,11 @@
 
     <footer class="bg-dark text-light">
 
-        <div
-            class="container d-flex justify-content-between justify-content-sm-around pt-3 border-bottom border-secondary">
+        <div class="footer-nav container d-flex justify-content-around pt-3 border-bottom border-secondary">
 
             <nav>
-                <h5>Redes Sociais:</h5>
-                <ul>
+                <h5>Redes Sociais</h5>
+                <ul class="list-unstyled lh-base ps-3">
                     <li><a href="https://facebook.com" target="_blank"><i class="bi bi-facebook me-2"></i> Facebook</a></li>
                     <li><a href="https://instagram.com" target="_blank"><i class="bi bi-instagram me-2"></i> Instagram</a></li>
                     <li><a href="https://youtube.com" target="_blank"><i class="bi bi-youtube me-2"></i> Youtube</a></li>
@@ -142,9 +145,19 @@
                 </ul>
             </nav>
 
+            <nav class="d-none d-md-block">
+                <h5>Informações</h5>
+                <ul class="list-unstyled lh-base ps-3">
+                    <li><a href="javascript:void(0)"><i class="bi bi-telephone-fill"></i> (21) 3456-7890</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i> (21) 9988-77665</a></li>
+                    <li><a href="javascript:void(0)"><i class="bi bi-envelope-at-fill"></i> support@springpad.com</a></li>
+                    <li><a href="javascript:void(0)"></a><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </nav>
+
             <nav>
-                <h5>Acesso Rápido:</h5>
-                <ul>
+                <h5>Acesso Rápido</h5>
+                <ul class="list-unstyled lh-base ps-3">
                     <li><a href="javascript:void(0)"><i class="bi bi-buildings-fill me-2"></i> Procurar</a></li>
                     <li><a href="javascript:void(0)"><i class="bi bi-person-lock me-2"></i> Privacidade</a></li>
                     <li><a href="javascript:void(0)"><i class="bi bi-chat-dots-fill me-2"></i> Contatos</a></li>
@@ -155,9 +168,9 @@
         </div>
 
         <div class="container d-flex justify-content-between align-items-center py-2">
-            <a href="javascript:void(0)" title="Página inicial" class="fs-4"><i class="bi bi-house"></i></a>
+            <a href="javascript:void(0)" title="Página inicial" class="fs-3"><i class="bi bi-house"></i></a>
             <div class="text-center">&copy; 2025 Joca da Silva</div>
-            <a href="#top" title="Topo desta página" class="fs-4"><i class="bi bi-arrow-up-circle"></i></a>
+            <a href="#top" title="Topo desta página" class="fs-3"><i class="bi bi-arrow-up-circle"></i></a>
         </div>
 
     </footer>
@@ -172,21 +185,21 @@
           * Referências desta página: https://firebase.google.com/docs/build?hl=pt-br
           */
 
-        /*
-         * Ação ao clicar no usuário logado:
+        /**
+         * Configuraçãpo: ação ao clicar no usuário logado:
          *  - Se vazio (''), faz logout do usuário
          *  - Se tem uma rota (Ex.: '/profile'), acessa
          */
         const loggedUserAction = '';
 
-        /*
-         * ID do elemento que contém o avatar do usuário.
+        /**
+         * Configuração: ID do elemento que contém o avatar do usuário.
          * Altere conforme seu HTML.
          */
         const userClickId = 'userInOutLink';
 
-        /*
-         * Rota de persistência.
+        /**
+         * Configuração: rota de persistência.
          * Rota da API/Backend que recebe o JSON com os dados do usuário quando o perfil é atualizado.
          * - Use um endpoint completo ou somente a rota. Ex.:
          *     - Endpoint completo → https://minhaapi.com/user/login
@@ -199,8 +212,16 @@
         // const apiLoginEndpoint = '';
         const apiLoginEndpoint = 'firebase';
 
-        // Configuração do Projeto Firebase
-        // Altere essas configurações conforme seu projeto no Firebase.com
+        /**
+         * Configuração: configuração do Projeto Firebase.
+         * Altere essas configurações conforme seu projeto no Firebase.com
+         *  - Crie um projeto no Firebase.com
+         *  - Entre no console
+         *  - Crie uma aplicativo Web
+         *  - Ative o Authentication pelo Google
+         *  - Clique na engrenagem
+         *  - Copie os dados do projeto nas chaves abaixo
+         */ 
         const firebaseConfig = {
             apiKey: "...",
             authDomain: "...",
@@ -342,7 +363,7 @@
         };
 
         /**
-         * Função para persistir os dados no firebase firestore
+         * Função para persistir os dados no Firebase Firestore
          * Envia os dados do usuário logado para a API/backend via JSON.
          */
         const sendUserToFirestore = async (user) => {
