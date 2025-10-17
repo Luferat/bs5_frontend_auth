@@ -1,0 +1,51 @@
+html,
+body,
+input,
+textarea,
+select {
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: steelblue;
+}
+
+a:hover {
+    text-decoration: none;
+    color: orangered;
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--bs-light);
+}
+
+footer a:hover {
+    color: var(--bs-warning);
+}
+
+.border-md-top-0 {
+    border-top: 1px solid grey;
+}
+
+@media screen and (min-width: 768px) {
+    .border-md-top-0 {
+        border: none !important;
+    }
+}
+
+.avatar-sm {
+    width: 2rem;
+    height: 2rem;
+}
+
+.footer-nav a {
+    display: flex;
+    align-items: center;
+}
+
+.footer-nav i {
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
