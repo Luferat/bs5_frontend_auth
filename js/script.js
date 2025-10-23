@@ -153,6 +153,7 @@ const updateUI = (user) => {
  * Envia os dados do usuário logado para a API/backend via JSON.
  */
 const sendUserToBackend = async (user) => {
+    const idToken = await user.getIdToken(true);
     try {
         // Dados do usuário do Firebase Authentication a serem persistidos
         const userData = {
@@ -167,7 +168,7 @@ const sendUserToBackend = async (user) => {
         // A rota da API recebe os dados do usuário logado via JSON e POST e faz persistência
         const response = await fetch(apiLoginEndpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`},
             body: JSON.stringify(userData)
         });
 
