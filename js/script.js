@@ -27,34 +27,35 @@ const userClickId = 'userInOutLink';
  * - Se vazio (""), não envia os dados para a API/backend;
  * - Se "firebase", faz a persistência no projeto atual do Firebase Firestore, na coleção `Users`;
  */
-// const apiLoginEndpoint = '/login';
-// const apiLoginEndpoint = '';
-const apiLoginEndpoint = 'firebase';
+// const apiLoginEndpoint = 'firebase';
+// const apiLoginEndpoint = '/owner/login';
+const apiLoginEndpoint = '';
+
+// Notifica o backend para deletar o cookie de sessão seguro
+// const apiLogoutEndpoint = '/owner/logout';
+const apiLogoutEndpoint = '';
 
 /**
  * Configuração: configuração do Projeto Firebase.
  * Altere essas configurações conforme seu projeto no Firebase.com
- *  - Crie um projeto no Firebase.com
- *  - Entre no console
- *  - Crie uma aplicativo Web
- *  - Ative o Authentication pelo Google
+ *  - Entre no console do projeto no Firebase
  *  - Clique na engrenagem
  *  - Copie os dados do projeto nas chaves abaixo
  */
 const firebaseConfig = {
-    apiKey: "...",
-    authDomain: "...",
-    projectId: "...",
-    storageBucket: "...",
-    messagingSenderId: "...",
-    appId: "..."
+  apiKey: "...",
+  authDomain: "...",
+  projectId: "...",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "..."
 };
 
 // Inicializa o Firebase e o Authentication
 const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
 
-// Referência ao elemento HTML interagível
+// Referência ao elemento HTML clicável
 const userInOut = document.getElementById(userClickId);
 
 // Função para Login com Google (Popup)
@@ -74,11 +75,26 @@ const googleLogin = async () => {
 // Função para Logout
 const googleLogout = async () => {
     try {
+        // Limpa o estado no Firebase Authentication (lado do cliente)
         await auth.signOut();
-        console.log('Logout bem-sucedido!');
+
+        if (apiLogoutEndpoint != "") {
+    
+            const response = await fetch(apiLogoutEndpoint, {method: 'POST',});
+    
+            if (response.ok) {
+                console.log('Logout bem-sucedido e cookie de sessão removido!');
+                // Redireciona após logout bem-sucedido para a home
+                window.location.href = '/home';
+            } else {
+                console.error('Erro ao notificar o backend sobre o logout.');
+            }
+        }
+
     } catch (error) {
         console.error("Erro no logout:", error);
-        alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
+        // Não use alert(), use uma modal customizada
+        // alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
     }
 };
 
@@ -168,7 +184,10 @@ const sendUserToBackend = async (user) => {
         // A rota da API recebe os dados do usuário logado via JSON e POST e faz persistência
         const response = await fetch(apiLoginEndpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${idToken}`},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${idToken}`
+            },
             body: JSON.stringify(userData)
         });
 
@@ -213,7 +232,7 @@ const sendUserToFirestore = async (user) => {
         };
 
         // Cria ou atualiza o documento.
-        // { merge: true } garante que o documento seja atualizado se já existir, 
+        // { merge: true } garante que o documento seja atualizado se já existir,
         // preservando outros campos não especificados em 'userData'.
         await userDocRef.set(userData, { merge: true });
 
