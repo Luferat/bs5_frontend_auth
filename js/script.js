@@ -52,12 +52,12 @@ const apiLogoutEndpoint = '';
  *  - Copie os dados do projeto nas chaves abaixo
  */
 const firebaseConfig = {
-    apiKey: "AIzaSyAQJzzd1axhY6WWMIfHjTP2L_IfPrGDSaU",
-    authDomain: "jsbpad.firebaseapp.com",
-    projectId: "jsbpad",
-    storageBucket: "jsbpad.firebasestorage.app",
-    messagingSenderId: "789854235451",
-    appId: "1:789854235451:web:9727cd0b11c0105508651e"
+    apiKey: "...",
+    authDomain: "...",
+    projectId: "...",
+    storageBucket: "...",
+    messagingSenderId: "...",
+    appId: "..."
 };
 
 // Inicializa o Firebase e o Authentication
