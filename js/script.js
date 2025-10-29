@@ -10,6 +10,7 @@
  *  - Se tem uma rota (Ex.: '/profile'), acessa
  */
 const loggedUserAction = '';
+// const loggedUserAction = '/profile';
 
 /**
  * Configuração: ID do elemento que contém o avatar do usuário.
@@ -22,7 +23,7 @@ const userClickId = 'userInOutLink';
  * Rota da API/Backend que recebe o JSON com os dados do usuário quando o perfil é atualizado.
  * - Use um endpoint completo ou somente a rota. Ex.:
  *     - Endpoint completo → https://minhaapi.com/user/login
- *     - Somente a rota → /login
+ *     - Somente a rota → /user/login ← Se o front-end está no mesmo domínio.
  *   DICA! Quando implementar seu back-end, não esqueça de implementar o endpoint abaixo usando o método POST.
  * - Se vazio (""), não envia os dados para a API/backend;
  * - Se "firebase", faz a persistência no projeto atual do Firebase Firestore, na coleção `Users`;
@@ -31,8 +32,16 @@ const userClickId = 'userInOutLink';
 // const apiLoginEndpoint = '/owner/login';
 const apiLoginEndpoint = '';
 
-// Notifica o backend para deletar o cookie de sessão seguro
-// const apiLogoutEndpoint = '/owner/logout';
+/** 
+ * Configuração: rota de logout
+ * Rota da API/Backend que recebe a requisição de logout do usuário quando ele sai do front-end.
+ * Por exemplo, notifica o backend para deletar o cookie de sessão seguro (JWT). 
+ * - Use um endpoint completo ou somente a rota. Ex.:
+ *     - Endpoint completo → https://minhaapi.com/user/logout
+ *     - Somente a rota → /user/logout ← Se o front-end está no mesmo domínio.
+ * - Se vazio (""), não envia os dados para a API/backend;
+ */
+// const apiLogoutEndpoint = '/user/logout';
 const apiLogoutEndpoint = '';
 
 /**
@@ -43,12 +52,12 @@ const apiLogoutEndpoint = '';
  *  - Copie os dados do projeto nas chaves abaixo
  */
 const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  storageBucket: "...",
-  messagingSenderId: "...",
-  appId: "..."
+    apiKey: "AIzaSyAQJzzd1axhY6WWMIfHjTP2L_IfPrGDSaU",
+    authDomain: "jsbpad.firebaseapp.com",
+    projectId: "jsbpad",
+    storageBucket: "jsbpad.firebasestorage.app",
+    messagingSenderId: "789854235451",
+    appId: "1:789854235451:web:9727cd0b11c0105508651e"
 };
 
 // Inicializa o Firebase e o Authentication
@@ -58,14 +67,14 @@ const auth = app.auth();
 // Referência ao elemento HTML clicável
 const userInOut = document.getElementById(userClickId);
 
-// Função para Login com Google (Popup)
+// Função para Login com Google usando Popup
 const googleLogin = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
         // Abre o popup do Google para login
         await auth.signInWithPopup(provider);
         console.log('Login com Google bem-sucedido!');
-        // O estado de autenticação será atualizado pelo listener onAuthStateChanged
+        // O estado de autenticação será atualizado pelo listener onAuthStateChanged abaixo
     } catch (error) {
         console.error("Erro no login com Google:", error);
         alert('Erro ao fazer login. Verifique o console para mais detalhes.');
@@ -75,16 +84,21 @@ const googleLogin = async () => {
 // Função para Logout
 const googleLogout = async () => {
     try {
-        // Limpa o estado no Firebase Authentication (lado do cliente)
+        // Limpa o estado no Firebase Authentication (do lado do cliente)
         await auth.signOut();
 
+        // Se configurou um endpoint de logout
         if (apiLogoutEndpoint != "") {
-    
-            const response = await fetch(apiLogoutEndpoint, {method: 'POST',});
-    
+
+            const response = await fetch(apiLogoutEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: "logout" })
+            });
+
             if (response.ok) {
                 console.log('Logout bem-sucedido e cookie de sessão removido!');
-                // Redireciona após logout bem-sucedido para a home
+                // Após logout bem-sucedido, redireciona para a home
                 window.location.href = '/home';
             } else {
                 console.error('Erro ao notificar o backend sobre o logout.');
@@ -93,16 +107,16 @@ const googleLogout = async () => {
 
     } catch (error) {
         console.error("Erro no logout:", error);
-        // Não use alert(), use uma modal customizada
-        // alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
+        alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
     }
 };
 
 // Função de Manipulação de Clique (Login/Página de Perfil)
 const handleUserInOutClick = (event) => {
-    // Evita que o <a> navegue imediatamente, pois vamos gerenciar isso no JS
+    // Evita que o <a> navegue imediatamente, pois vamos gerenciar isso no JavaScript
     event.preventDefault();
 
+    // Obtém status do usuário
     const user = auth.currentUser;
 
     if (user) {
@@ -127,13 +141,13 @@ const updateUI = (user) => {
     if (user) {
         // Usuário LOGADO: Mostra o Avatar
 
-        // Cria o elemento <img> com o avatar
+        // Atualiza o elemento <img> com o avatar do usuário (photoURL)
         const avatarImg = `<img src="${user.photoURL || 'img/user.png'}" alt="${user.displayName || 'Avatar do Usuário'}" class="rounded-circle avatar-sm" referrerpolicy="no-referrer">`;
 
-        // Cria o elemento <span>
+        // Atualiza o elemento <span> com nome do usuário (displayName)
         const loginSpan = `<span class="d-md-none ms-3">${user.displayName || 'Usuário logado'}</span>`;
 
-        // Adiciona o avatar do usuário ao link
+        // Atualiza os dados do usuário no link
         userInOut.innerHTML = avatarImg + loginSpan;
 
         // Atualiza o link para a página de perfil
@@ -263,4 +277,4 @@ auth.onAuthStateChanged((user) => {
 });
 
 // Adiciona o Event Listener ao elemento `userInOut`
-userInOutLink.addEventListener('click', handleUserInOutClick);
+userInOut.addEventListener('click', handleUserInOutClick);
