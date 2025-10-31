@@ -45,6 +45,13 @@ const apiLoginEndpoint = '';
 const apiLogoutEndpoint = '';
 
 /**
+ * Configuração: mostra logs das ações no console
+ *  - Se true, mostra logs
+ *  - Se false, oculta logs
+ */
+const showLogs = true;
+
+/**
  * Configuração: configuração do Projeto Firebase.
  * Altere essas configurações conforme seu projeto no Firebase.com
  *  - Entre no console do projeto no Firebase
@@ -60,13 +67,6 @@ const firebaseConfig = {
     appId: "1:1043187476281:web:777f337c87a8d171d22ae8"
 };
 
-/**
- * Configuração: mostra logs das ações no console
- *  - Se true, mostra logs
- *  - Se false, oculta logs
- */
-const showLogs = false;
-
 // Inicializa o Firebase e o Authentication
 const app = firebase.initializeApp(firebaseConfig);
 const auth = app.auth();
@@ -77,8 +77,13 @@ const userInOut = document.getElementById(userClickId);
 // Adicione a class "is-logged" aos elementos da página que só são visíveis quando o usuário está logado.
 const isLogged = document.querySelectorAll('.is-logged');
 
-// Adicione a class "not-is-logged" aos elementos da página que só são visíveis quando não tem ususário logado.
+// Adicione a class "not-is-logged" aos elementos da página que só são visíveis quando não tem usuário logado.
 const notIsLogged = document.querySelectorAll('.not-is-logged');
+
+/****************************************
+ * Não altere nada à partir daqui a não *
+ *  ser que saiba o que está fazendo!   *
+ ****************************************/ 
 
 // Função para Login com Google usando Popup
 const googleLogin = async () => {
@@ -175,14 +180,12 @@ const updateUI = (user) => {
 
         // Mostra elementos quando usuário ESTÁ logado
         isLogged.forEach(element => {
-            element.classList.remove('d-none');
-            element.classList.add('d-block');
+            element.classList.remove('d-none').add('d-block');
         });
 
         // Oculta elementos quando usuário ESTÁ logado
         notIsLogged.forEach(element => {
-            element.classList.remove('d-block');
-            element.classList.add('d-none');
+            element.classList.remove('d-block').add('d-none');
         });
 
     } else {
@@ -203,14 +206,12 @@ const updateUI = (user) => {
 
         // Oculta elementos quando usuário NÃO logado
         isLogged.forEach(element => {
-            element.classList.remove('d-block');
-            element.classList.add('d-none');
+            element.classList.remove('d-block').add('d-none');
         });
 
         // Mostra elementos quando usuário NÃO logado 
         notIsLogged.forEach(element => {
-            element.classList.remove('d-none');
-            element.classList.add('d-block');
+            element.classList.remove('d-none').add('d-block');
         });
     }
 };
@@ -229,7 +230,7 @@ const sendUserToBackend = async (user) => {
             email: user.email,
             photoURL: user.photoURL,
             createdAt: user.metadata.creationTime ? new Date(user.metadata.creationTime).getTime() : Date.now(),
-            lastLoginAt: Date.now()
+            lastLoginAt: user.metadata.lastLoginAt ? new Date(user.metadata.lastLoginAt).getTime() : Date.now(),
         };
 
         // A rota da API recebe os dados do usuário logado via JSON e POST e faz persistência
