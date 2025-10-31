@@ -5,7 +5,7 @@
  */
 
 /**
- * Configuraçãpo: ação ao clicar no usuário logado:
+ * Configuração: ação ao clicar no usuário logado:
  *  - Se vazio (''), faz logout do usuário
  *  - Se tem uma rota (Ex.: '/profile'), acessa
  */
@@ -52,13 +52,20 @@ const apiLogoutEndpoint = '';
  *  - Copie os dados do projeto nas chaves abaixo
  */
 const firebaseConfig = {
-    apiKey: "...",
-    authDomain: "...",
-    projectId: "...",
-    storageBucket: "...",
-    messagingSenderId: "...",
-    appId: "..."
+    apiKey: "AIzaSyDHQPWxYc2Xc2xXwW2dh6bg1Bup7vjYNrk",
+    authDomain: "ngcrud-93a6f.firebaseapp.com",
+    projectId: "ngcrud-93a6f",
+    storageBucket: "ngcrud-93a6f.firebasestorage.app",
+    messagingSenderId: "1043187476281",
+    appId: "1:1043187476281:web:777f337c87a8d171d22ae8"
 };
+
+/**
+ * Configuração: mostra logs das ações no console
+ *  - Se true, mostra logs
+ *  - Se false, oculta logs
+ */
+const showLogs = false;
 
 // Inicializa o Firebase e o Authentication
 const app = firebase.initializeApp(firebaseConfig);
@@ -67,16 +74,22 @@ const auth = app.auth();
 // Referência ao elemento HTML clicável
 const userInOut = document.getElementById(userClickId);
 
+// Adicione a class "is-logged" aos elementos da página que só são visíveis quando o usuário está logado.
+const isLogged = document.querySelectorAll('.is-logged');
+
+// Adicione a class "not-is-logged" aos elementos da página que só são visíveis quando não tem ususário logado.
+const notIsLogged = document.querySelectorAll('.not-is-logged');
+
 // Função para Login com Google usando Popup
 const googleLogin = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
         // Abre o popup do Google para login
         await auth.signInWithPopup(provider);
-        console.log('Login com Google bem-sucedido!');
+        showLogs ? console.log('Login com Google bem-sucedido!') : null;
         // O estado de autenticação será atualizado pelo listener onAuthStateChanged abaixo
     } catch (error) {
-        console.error("Erro no login com Google:", error);
+        showLogs ? console.error("Erro no login com Google:", error) : null;
         alert('Erro ao fazer login. Verifique o console para mais detalhes.');
     }
 };
@@ -97,16 +110,16 @@ const googleLogout = async () => {
             });
 
             if (response.ok) {
-                console.log('Logout bem-sucedido e cookie de sessão removido!');
+                showLogs ? console.log('Logout bem-sucedido e cookie de sessão removido!'): null;
                 // Após logout bem-sucedido, redireciona para a home
                 window.location.href = '/home';
             } else {
-                console.error('Erro ao notificar o backend sobre o logout.');
+                showLogs ? console.error('Erro ao notificar o backend sobre o logout.'): null;
             }
         }
 
     } catch (error) {
-        console.error("Erro no logout:", error);
+        showLogs ? console.error("Erro no logout:", error): null;
         alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
     }
 };
@@ -160,6 +173,18 @@ const updateUI = (user) => {
             userInOut.title = `Ver perfil de ${user.displayName}`;
         }
 
+        // Mostra elementos quando usuário ESTÁ logado
+        isLogged.forEach(element => {
+            element.classList.remove('d-none');
+            element.classList.add('d-block');
+        });
+
+        // Oculta elementos quando usuário ESTÁ logado
+        notIsLogged.forEach(element => {
+            element.classList.remove('d-block');
+            element.classList.add('d-none');
+        });
+
     } else {
         // Usuário DESLOGADO: Mostra a imagem padrão
 
@@ -175,6 +200,18 @@ const updateUI = (user) => {
         // Atualiza o link para o login (embora o JS trate o clique)
         userInOut.href = '/login';
         userInOut.title = `Fazer login usando o Google`;
+
+        // Oculta elementos quando usuário NÃO logado
+        isLogged.forEach(element => {
+            element.classList.remove('d-block');
+            element.classList.add('d-none');
+        });
+
+        // Mostra elementos quando usuário NÃO logado 
+        notIsLogged.forEach(element => {
+            element.classList.remove('d-none');
+            element.classList.add('d-block');
+        });
     }
 };
 
@@ -206,12 +243,12 @@ const sendUserToBackend = async (user) => {
         });
 
         if (response.ok) {
-            console.log('Dados do usuário enviados com sucesso para o backend');
+            showLogs ? console.log('Dados do usuário enviados com sucesso para o backend'): null;
         } else {
-            console.log('Erro ao enviar dados para o backend');
+            showLogs ? console.log('Erro ao enviar dados para o backend'): null;
         }
     } catch (error) {
-        console.error('Erro ao enviar dados:', error);
+        showLogs ? console.error('Erro ao enviar dados:', error): null;
     }
 };
 
@@ -223,7 +260,7 @@ const sendUserToFirestore = async (user) => {
     try {
         // Se a biblioteca Firestore não estiver carregada mostra erro
         if (typeof firebase.firestore !== 'function') {
-            console.error("Firestore não está inicializado. Certifique-se de que a biblioteca Firestore (ex: firebase-firestore.js) foi carregada.");
+            showLogs ? console.error("Firestore não está inicializado. Certifique-se de que a biblioteca Firestore (ex: firebase-firestore.js) foi carregada."): null;
             return;
         }
 
@@ -250,10 +287,10 @@ const sendUserToFirestore = async (user) => {
         // preservando outros campos não especificados em 'userData'.
         await userDocRef.set(userData, { merge: true });
 
-        console.log('Dados do usuário persistidos com sucesso no Firestore (Coleção Users, Doc ID: ' + user.uid + ')');
+        showLogs ? console.log('Dados do usuário persistidos com sucesso no Firestore (Coleção Users, Doc ID: ' + user.uid + ')'): null;
 
     } catch (error) {
-        console.error('Erro ao persistir dados no Firestore:', error);
+        showLogs ? console.error('Erro ao persistir dados no Firestore:', error): null;
     }
 }
 
@@ -265,14 +302,14 @@ auth.onAuthStateChanged((user) => {
     // Se usuário fez login, envia dados para o backend
     if (user && apiLoginEndpoint != '') {
         if (apiLoginEndpoint == 'firebase') {
-            console.log("Persistindo no Firebase.");
+            showLogs ? console.log("Persistindo no Firebase."): null;
             sendUserToFirestore(user);
         } else {
-            console.log("Persistindo na API.");
+            showLogs ? console.log("Persistindo na API."): null;
             sendUserToBackend(user);
         }
     } else {
-        console.log("Persistência desligada!");
+        showLogs ? console.log("Persistência desligada!"): null;
     }
 });
 
