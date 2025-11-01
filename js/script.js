@@ -180,12 +180,14 @@ const updateUI = (user) => {
 
         // Mostra elementos quando usuário ESTÁ logado
         isLogged.forEach(element => {
-            element.classList.remove('d-none').add('d-block');
+            element.classList.remove('d-none');
+            element.classList.add('d-block');
         });
 
         // Oculta elementos quando usuário ESTÁ logado
         notIsLogged.forEach(element => {
-            element.classList.remove('d-block').add('d-none');
+            element.classList.remove('d-block');
+            element.classList.add('d-none');
         });
 
     } else {
@@ -206,12 +208,14 @@ const updateUI = (user) => {
 
         // Oculta elementos quando usuário NÃO logado
         isLogged.forEach(element => {
-            element.classList.remove('d-block').add('d-none');
+            element.classList.remove('d-block');
+            element.classList.add('d-none');
         });
 
         // Mostra elementos quando usuário NÃO logado 
         notIsLogged.forEach(element => {
-            element.classList.remove('d-none').add('d-block');
+            element.classList.remove('d-none');
+            element.classList.add('d-block');
         });
     }
 };
