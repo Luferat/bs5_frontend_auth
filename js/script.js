@@ -51,21 +51,10 @@ const apiLogoutEndpoint = '';
  */
 const showLogs = true;
 
-/**
- * Configuração: configuração do Projeto Firebase.
- * Altere essas configurações conforme seu projeto no Firebase.com
- *  - Entre no console do projeto no Firebase
- *  - Clique na engrenagem
- *  - Copie os dados do projeto nas chaves abaixo
- */
-const firebaseConfig = {
-    apiKey: "AIzaSyDHQPWxYc2Xc2xXwW2dh6bg1Bup7vjYNrk",
-    authDomain: "ngcrud-93a6f.firebaseapp.com",
-    projectId: "ngcrud-93a6f",
-    storageBucket: "ngcrud-93a6f.firebasestorage.app",
-    messagingSenderId: "1043187476281",
-    appId: "1:1043187476281:web:777f337c87a8d171d22ae8"
-};
+/****************************************
+ * Não altere nada à partir daqui a não *
+ *  ser que saiba o que está fazendo!   *
+ ****************************************/ 
 
 // Inicializa o Firebase e o Authentication
 const app = firebase.initializeApp(firebaseConfig);
@@ -79,11 +68,6 @@ const isLogged = document.querySelectorAll('.is-logged');
 
 // Adicione a class "not-is-logged" aos elementos da página que só são visíveis quando não tem usuário logado.
 const notIsLogged = document.querySelectorAll('.not-is-logged');
-
-/****************************************
- * Não altere nada à partir daqui a não *
- *  ser que saiba o que está fazendo!   *
- ****************************************/ 
 
 // Função para Login com Google usando Popup
 const googleLogin = async () => {
