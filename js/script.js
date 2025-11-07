@@ -7,7 +7,7 @@
 /**
  * Configuração: ação ao clicar no usuário logado:
  *  - Se vazio (''), faz logout do usuário
- *  - Se tem uma rota (Ex.: '/profile'), acessa
+ *  - Se tem uma URL (Ex.: '/profile'), acessa
  */
 const loggedUserAction = '';
 // const loggedUserAction = '/profile';
@@ -28,9 +28,9 @@ const userClickId = 'userInOutLink';
  * - Se vazio (""), não envia os dados para a API/backend;
  * - Se "firebase", faz a persistência no projeto atual do Firebase Firestore, na coleção `Users`;
  */
-// const apiLoginEndpoint = 'firebase';
-// const apiLoginEndpoint = '/owner/login';
-const apiLoginEndpoint = '';
+const apiLoginEndpoint = 'firebase';
+// const apiLoginEndpoint = '/owner/login'; // Exemplo
+// const apiLoginEndpoint = '';
 
 /** 
  * Configuração: rota de logout
@@ -41,7 +41,7 @@ const apiLoginEndpoint = '';
  *     - Somente a rota → /user/logout ← Se o front-end está no mesmo domínio.
  * - Se vazio (""), não envia os dados para a API/backend;
  */
-// const apiLogoutEndpoint = '/user/logout';
+// const apiLogoutEndpoint = '/user/logout'; // Exemplo
 const apiLogoutEndpoint = '';
 
 /**
@@ -49,12 +49,11 @@ const apiLogoutEndpoint = '';
  *  - Se true, mostra logs
  *  - Se false, oculta logs
  */
-const showLogs = true;
+const showLogs = false;
 
-/****************************************
- * Não altere nada à partir daqui a não *
- *  ser que saiba o que está fazendo!   *
- ****************************************/ 
+/**************************************************************************
+ * Não altere nada à partir daqui a não ser que saiba o que está fazendo! *
+ **************************************************************************/
 
 // Inicializa o Firebase e o Authentication
 const app = firebase.initializeApp(firebaseConfig);
@@ -99,16 +98,16 @@ const googleLogout = async () => {
             });
 
             if (response.ok) {
-                showLogs ? console.log('Logout bem-sucedido e cookie de sessão removido!'): null;
+                showLogs ? console.log('Logout bem-sucedido e cookie de sessão removido!') : null;
                 // Após logout bem-sucedido, redireciona para a home
                 window.location.href = '/home';
             } else {
-                showLogs ? console.error('Erro ao notificar o backend sobre o logout.'): null;
+                showLogs ? console.error('Erro ao notificar o backend sobre o logout.') : null;
             }
         }
 
     } catch (error) {
-        showLogs ? console.error("Erro no logout:", error): null;
+        showLogs ? console.error("Erro no logout:", error) : null;
         alert('Erro ao fazer logout. Verifique o console para mais detalhes.');
     }
 };
@@ -217,8 +216,9 @@ const sendUserToBackend = async (user) => {
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
-            createdAt: user.metadata.creationTime ? new Date(user.metadata.creationTime).getTime() : Date.now(),
-            lastLoginAt: user.metadata.lastLoginAt ? new Date(user.metadata.lastLoginAt).getTime() : Date.now(),
+            // Converte as datas para UTC/ISO ao enviar para o backend
+            createdAt: timestampToISO(user.metadata.creationTime),
+            lastLoginAt: timestampToISO(user.metadata.lastLoginAt),
         };
 
         // A rota da API recebe os dados do usuário logado via JSON e POST e faz persistência
@@ -232,12 +232,12 @@ const sendUserToBackend = async (user) => {
         });
 
         if (response.ok) {
-            showLogs ? console.log('Dados do usuário enviados com sucesso para o backend'): null;
+            showLogs ? console.log('Dados do usuário enviados com sucesso para o backend') : null;
         } else {
-            showLogs ? console.log('Erro ao enviar dados para o backend'): null;
+            showLogs ? console.log('Erro ao enviar dados para o backend') : null;
         }
     } catch (error) {
-        showLogs ? console.error('Erro ao enviar dados:', error): null;
+        showLogs ? console.error('Erro ao enviar dados:', error) : null;
     }
 };
 
@@ -249,7 +249,7 @@ const sendUserToFirestore = async (user) => {
     try {
         // Se a biblioteca Firestore não estiver carregada mostra erro
         if (typeof firebase.firestore !== 'function') {
-            showLogs ? console.error("Firestore não está inicializado. Certifique-se de que a biblioteca Firestore (ex: firebase-firestore.js) foi carregada."): null;
+            showLogs ? console.error("Firestore não está inicializado. Certifique-se de que a biblioteca Firestore (ex: firebase-firestore.js) foi carregada.") : null;
             return;
         }
 
@@ -265,10 +265,9 @@ const sendUserToFirestore = async (user) => {
             displayName: user.displayName || null,
             email: user.email || null,
             photoURL: user.photoURL || null,
-            // O 'createdAt' só deve ser definido se o documento for criado (novo usuário)
-            // Usamos o "FieldValue.serverTimestamp()" para obter um timestamp do servidor do Firebase (melhor prática)
-            createdAt: user.metadata.creationTime ? new Date(user.metadata.creationTime).getTime() : Date.now(),
-            lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
+            // Converte as datas para UTC/ISO ao enviar para o backend
+            createdAt: timestampToISO(user.metadata.createdAt) || null,
+            lastLoginAt: timestampToISO(user.metadata.lastLoginAt) || null,
         };
 
         // Cria ou atualiza o documento.
@@ -276,12 +275,52 @@ const sendUserToFirestore = async (user) => {
         // preservando outros campos não especificados em 'userData'.
         await userDocRef.set(userData, { merge: true });
 
-        showLogs ? console.log('Dados do usuário persistidos com sucesso no Firestore (Coleção Users, Doc ID: ' + user.uid + ')'): null;
+        showLogs ? console.log('Dados do usuário persistidos com sucesso no Firestore (Coleção Users, Doc ID: ' + user.uid + ')') : null;
 
     } catch (error) {
-        showLogs ? console.error('Erro ao persistir dados no Firestore:', error): null;
+        showLogs ? console.error('Erro ao persistir dados no Firestore:', error) : null;
     }
 }
+
+/**
+ * Converte um timestamp em milissegundos para o formato UTC 'YYYY-MM-DD HH:MM:SS'.
+ * A data e hora retornadas representam o momento em UTC.
+ * @param {number} timestamp_ms - O timestamp em milissegundos (ex: 1758895930030).
+ * @returns {string} A string de data/hora formatada em UTC.
+ */
+const timestampToISO = (timestamp_ms) => {
+    const date = new Date(Number(timestamp_ms));
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+/**
+ * Converte uma data no formato UTC para timestamp.
+ * @param {StringUTC} isoString - Uma data no formato UTC (ex: 2025-11-22 10:24:39)
+ * @returns {Number} A data convertida para timestamp.
+ */
+const isoToTimestamp = (isoString) => {
+    return new Date(isoString.replace(' ', 'T') + 'Z').getTime();
+};
+
+// Oculta o menu ao clicar em um item, em telas menores
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('#mynavbar .nav-link');
+  const collapseElement = document.getElementById('mynavbar');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (collapseElement.classList.contains('show')) {
+        const collapse = new bootstrap.Collapse(collapseElement);
+        collapse.hide();
+      }
+    });
+  });
+});
 
 // Listener para o estado de autenticação
 // Este listener é executado sempre que o estado do usuário (logado/deslogado) muda.
@@ -291,14 +330,14 @@ auth.onAuthStateChanged((user) => {
     // Se usuário fez login, envia dados para o backend
     if (user && apiLoginEndpoint != '') {
         if (apiLoginEndpoint == 'firebase') {
-            showLogs ? console.log("Persistindo no Firebase."): null;
+            showLogs ? console.log("Persistindo no Firebase.") : null;
             sendUserToFirestore(user);
         } else {
-            showLogs ? console.log("Persistindo na API."): null;
+            showLogs ? console.log("Persistindo na API.") : null;
             sendUserToBackend(user);
         }
     } else {
-        showLogs ? console.log("Persistência desligada!"): null;
+        showLogs ? console.log("Persistência desligada!") : null;
     }
 });
 
