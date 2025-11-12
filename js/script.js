@@ -217,7 +217,7 @@ const sendUserToBackend = async (user) => {
             email: user.email,
             photoURL: user.photoURL,
             // Converte as datas para UTC/ISO ao enviar para o backend
-            createdAt: timestampToISO(user.metadata.creationTime),
+            createdAt: timestampToISO(user.metadata.createdAt),
             lastLoginAt: timestampToISO(user.metadata.lastLoginAt),
         };
 
