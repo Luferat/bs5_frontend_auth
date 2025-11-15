@@ -310,16 +310,47 @@ const isoToTimestamp = (isoString) => {
 
 // Oculta o menu ao clicar em um item, em telas menores
 document.addEventListener('DOMContentLoaded', () => {
-  const navLinks = document.querySelectorAll('#mynavbar .nav-link');
-  const collapseElement = document.getElementById('mynavbar');
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (collapseElement.classList.contains('show')) {
-        const collapse = new bootstrap.Collapse(collapseElement);
-        collapse.hide();
-      }
+    const navLinks = document.querySelectorAll('#mynavbar .nav-link');
+    const collapseElement = document.getElementById('mynavbar');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (collapseElement.classList.contains('show')) {
+                const collapse = new bootstrap.Collapse(collapseElement);
+                collapse.hide();
+            }
+        });
     });
-  });
+});
+
+// Funções para cookies
+function setCookie(n, v, d) {
+    let e = "";
+    if (d) {
+        const dt = new Date();
+        dt.setTime(dt.getTime() + d * 864e5);
+        e = "; expires=" + dt.toUTCString();
+    }
+    document.cookie = `${n}=${v || ""}${e}; path=/`;
+}
+
+function getCookie(n) {
+    return document.cookie.split(';').reduce((a, c) => {
+        c = c.trim();
+        return c.startsWith(n + '=') ? c.slice(n.length + 1) : a;
+    }, null);
+}
+
+// Lógica do banner
+addEventListener('DOMContentLoaded', () => {
+    const b = document.getElementById('acceptCookies');
+    const a = document.getElementById('acceptCookiesBtn');
+    const r = document.getElementById('rejectCookiesBtn');
+    if (b && a && r) {
+        if (getCookie('accept_cookies')) b.classList.add('d-none');
+        else b.classList.remove('d-none');
+        a.addEventListener('click', () => { setCookie('accept_cookies', 'accept', 365); b.classList.add('d-none'); });
+        r.addEventListener('click', () => { setCookie('accept_cookies', 'reject', 365); b.classList.add('d-none'); });
+    }
 });
 
 // Listener para o estado de autenticação
