@@ -123,10 +123,9 @@ const handleUserInOutClick = (event) => {
     if (user) {
         // Usuário LOGADO clica no avatar
         if (loggedUserAction == '') {
-            // Opção para fazer logout
-            if (confirm("Tem certeza que deseja sair do aplicativo?")) {
-                googleLogout()
-            }
+            // Opção para fazer logout: Mostra o modal de confirmação
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            logoutModal.show();
         } else {
             // Opção que redireciona para outra rota
             window.location.href = loggedUserAction;
@@ -351,6 +350,13 @@ addEventListener('DOMContentLoaded', () => {
         a.addEventListener('click', () => { setCookie('accept_cookies', 'accept', 365); b.classList.add('d-none'); });
         r.addEventListener('click', () => { setCookie('accept_cookies', 'reject', 365); b.classList.add('d-none'); });
     }
+});
+
+// Listener para o botão de confirmação no modal (adicione isso fora da função, no final do script.js)
+document.getElementById('confirmLogoutBtn').addEventListener('click', () => {
+    googleLogout();
+    const logoutModal = bootstrap.Modal.getInstance(document.getElementById('logoutModal'));
+    logoutModal.hide();
 });
 
 // Listener para o estado de autenticação
