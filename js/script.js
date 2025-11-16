@@ -360,7 +360,7 @@ function getCookie(n) {
     }, null);
 }
 
-// Lógica do banner
+// Lógica do banner de aceitação dos cookies
 addEventListener('DOMContentLoaded', () => {
     const b = document.getElementById('acceptCookies');
     const a = document.getElementById('acceptCookiesBtn');
