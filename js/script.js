@@ -45,6 +45,14 @@ const apiLoginEndpoint = 'firebase';
 const apiLogoutEndpoint = '';
 
 /**
+ * Configuração: URL / rota da página inicial do aplicativo
+ * Informa para onde o usuário será enviado após o logout
+ * - Se vazio, não faz nada
+ */
+// const redirectOnLogout = ""
+const redirectOnLogout = "index.html"
+
+/**
  * Configuração: mostra logs das ações no console
  *  - Se true, mostra logs
  *  - Se false, oculta logs
@@ -121,11 +129,15 @@ const googleLogout = async () => {
 
         // 3. Redirecionar apenas se tudo (ou o essencial) deu certo
         if (backendLogoutSuccess || !apiLogoutEndpoint) {
-            window.location.href = '/';
+            if (redirectOnLogout) {
+                window.location.href = redirectOnLogout;
+            }
         } else {
             // Opcional: redirecionar mesmo assim, ou mostrar aviso
             showLogs && console.error('Logout parcial: sessão local limpa, mas cookie pode persistir.', err);
-            window.location.href = '/';
+            if (redirectOnLogout) {
+                window.location.href = redirectOnLogout;
+            }
         }
 
     } catch (error) {
