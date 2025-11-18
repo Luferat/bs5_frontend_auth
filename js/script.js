@@ -49,8 +49,8 @@ const apiLogoutEndpoint = '';
  * Informa para onde o usuário será enviado após o logout
  * - Se vazio, não faz nada
  */
-// const redirectOnLogout = "index.html"
-const redirectOnLogout = ""
+// const redirectOnLogout = 'index.html'
+const redirectOnLogout = 'https://google.com'
 
 /**
  * Configuração: mostra logs das ações no console
@@ -102,7 +102,7 @@ const googleLogout = async () => {
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json', },
-                    body: JSON.stringify({ action: "logout" })
+                    body: JSON.stringify({ action: "logout", redirectTo: "redirectOnLogout" })
                 });
 
                 backendLogoutSuccess = response.ok;
@@ -127,7 +127,7 @@ const googleLogout = async () => {
             return;
         }
 
-        // 3. Redirecionar apenas se tudo (ou o essencial) deu certo
+        // Redirecionar apenas se tudo (ou o essencial) deu certo
         if (backendLogoutSuccess || !apiLogoutEndpoint) {
             if (redirectOnLogout) {
                 window.location.href = redirectOnLogout;
@@ -408,8 +408,18 @@ auth.onAuthStateChanged((user) => {
         }
     } else {
         showLogs ? console.log("Persistência desligada!") : null;
+        // REDIRECIONAMENTO APÓS LOGOUT (aqui é o lugar certo e seguro!)
+        if (auth.currentUser === null) {
+            // Garante que só redireciona UMA vez após logout
+            if (redirectOnLogout && window.location.pathname !== redirectOnLogout) {
+                showLogs && console.log('%cRedirecionando após logout para: ' + redirectOnLogout, 'color: yellow; background: #333; padding: 4px 8px; border-radius: 4px;');
+                window.location.href = redirectOnLogout;
+            }
+        }
     }
 });
 
 // Adiciona o Event Listener ao elemento `userInOut`
 userInOut.addEventListener('click', handleUserInOutClick);
+
+
