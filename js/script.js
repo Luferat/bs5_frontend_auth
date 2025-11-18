@@ -119,26 +119,8 @@ const googleLogout = async () => {
         }
 
         // Logout do Firebase (independente do backend)
-        try {
-            await auth.signOut();
-            showLogs && console.log('Logout do Firebase concluído.');
-        } catch (err) {
-            showLogs && console.error('Erro ao fazer signOut no Firebase:', err);
-            return;
-        }
-
-        // Redirecionar apenas se tudo (ou o essencial) deu certo
-        if (backendLogoutSuccess || !apiLogoutEndpoint) {
-            if (redirectOnLogout) {
-                window.location.href = redirectOnLogout;
-            }
-        } else {
-            // Opcional: redirecionar mesmo assim, ou mostrar aviso
-            showLogs && console.error('Logout parcial: sessão local limpa, mas cookie pode persistir.', err);
-            if (redirectOnLogout) {
-                window.location.href = redirectOnLogout;
-            }
-        }
+        // Não adianta processar nada após isso porque passa o controle para onAuthStateChanged
+        await auth.signOut();
 
     } catch (error) {
         showLogs && console.error("Erro inesperado no logout:", error);
