@@ -393,7 +393,7 @@ document.getElementById('confirmLogoutBtn').addEventListener('click', () => {
 });
 
 // Listener para o estado de autenticação
-// Este listener é executado sempre que o estado do usuário (logado/deslogado) muda.
+// Este listener é executado sempre que o estado de autenticação do usuário muda.
 auth.onAuthStateChanged((user) => {
     updateUI(user);
 
