@@ -49,8 +49,8 @@ const apiLogoutEndpoint = '';
  * Informa para onde o usuário será enviado após o logout
  * - Se vazio, não faz nada
  */
-// const redirectOnLogout = 'index.html'
-const redirectOnLogout = 'https://google.com'
+const redirectOnLogout = 'index.html'
+// const redirectOnLogout = '/'
 
 /**
  * Configuração: mostra logs das ações no console
