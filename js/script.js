@@ -28,9 +28,9 @@ const userClickId = 'userInOutLink';
  * - Se vazio (""), não envia os dados para a API/backend;
  * - Se "firebase", faz a persistência no projeto atual do Firebase Firestore, na coleção `Users`;
  */
-const apiLoginEndpoint = 'firebase';
+// const apiLoginEndpoint = 'firebase';
 // const apiLoginEndpoint = '/owner/login'; // Exemplo
-// const apiLoginEndpoint = '';
+const apiLoginEndpoint = '';
 
 /** 
  * Configuração: rota de logout
@@ -49,8 +49,9 @@ const apiLogoutEndpoint = '';
  * Informa para onde o usuário será enviado após o logout
  * - Se vazio, não faz nada
  */
-const redirectOnLogout = 'index.html'
+// const redirectOnLogout = 'index.html'
 // const redirectOnLogout = '/'
+const redirectOnLogout = ''
 
 /**
  * Configuração: mostra logs das ações no console
@@ -121,6 +122,10 @@ const googleLogout = async () => {
         // Logout do Firebase (independente do backend)
         // Não adianta processar nada após isso porque passa o controle para onAuthStateChanged
         await auth.signOut();
+
+        if (redirectOnLogout != '') {
+            location.href = redirectOnLogout;
+        }
 
     } catch (error) {
         showLogs && console.error("Erro inesperado no logout:", error);
@@ -390,18 +395,8 @@ auth.onAuthStateChanged((user) => {
         }
     } else {
         showLogs ? console.log("Persistência desligada!") : null;
-        // REDIRECIONAMENTO APÓS LOGOUT (aqui é o lugar certo e seguro!)
-        if (auth.currentUser === null) {
-            // Garante que só redireciona UMA vez após logout
-            if (redirectOnLogout && window.location.pathname !== redirectOnLogout) {
-                showLogs && console.log('%cRedirecionando após logout para: ' + redirectOnLogout, 'color: yellow; background: #333; padding: 4px 8px; border-radius: 4px;');
-                window.location.href = redirectOnLogout;
-            }
-        }
     }
 });
 
 // Adiciona o Event Listener ao elemento `userInOut`
 userInOut.addEventListener('click', handleUserInOutClick);
-
-
